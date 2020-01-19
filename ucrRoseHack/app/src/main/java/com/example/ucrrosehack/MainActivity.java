@@ -1,6 +1,7 @@
 package com.example.ucrrosehack;
 
 import android.Manifest;
+import android.app.Application;
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraManager;
 import android.media.Image;
@@ -22,6 +23,7 @@ import com.google.firebase.ml.vision.objects.FirebaseVisionObject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.camera.camera2.Camera2Config;
 import androidx.camera.core.CameraX;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageAnalysisConfig;
@@ -40,6 +42,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -97,12 +100,13 @@ public class MainActivity extends AppCompatActivity {
                     .setContourMode(FirebaseVisionFaceDetectorOptions.NO_CONTOURS)
                     .setLandmarkMode(FirebaseVisionFaceDetectorOptions.NO_LANDMARKS)
                     .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
+                    .setMinFaceSize(.15f)
                     .build();
 
         ImageAnalysisConfig config =
                 new ImageAnalysisConfig.Builder()
                         .setTargetResolution(new Size(480, 360))
-                        .setImageReaderMode(ImageAnalysis.ImageReaderMode.ACQUIRE_LATEST_IMAGE)
+                        .setImageReaderMode(ImageAnalysis.ImageReaderMode.ACQUIRE_NEXT_IMAGE)
                         .build();
 
         ImageAnalysis imageAnalysis = new ImageAnalysis(config);
@@ -118,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                             return;
                         }
                         Image mediaImage = imageProxy.getImage();
+
                         int rotation = degreesToFirebaseRotation(degrees);
                         FirebaseVisionImage image =
                                 FirebaseVisionImage.fromMediaImage(mediaImage, rotation);
@@ -135,7 +140,14 @@ public class MainActivity extends AppCompatActivity {
                                                         // ...
                                                         System.out.println("success");
                                                         if (faces.size() > 0) {
-                                                            System.out.println("FACES: " + faces.size());
+                                                            System.out.println("\nFACES: " + faces.size());
+                                                        }
+                                                        for (FirebaseVisionFace face : faces) {
+                                                            // If classification was enabled:
+                                                            if (face.getSmilingProbability() != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
+                                                                float smileProb = face.getSmilingProbability();
+                                                                System.out.println("\nSmiling probability: " + smileProb);
+                                                            }
                                                         }
 
 
@@ -159,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
                 });
 
-                CameraX.bindToLifecycle((LifecycleOwner) this, imageAnalysis);
+                CameraX.bindToLifecycle((LifecycleOwner) this, imageAnalysis );
 
 
 
