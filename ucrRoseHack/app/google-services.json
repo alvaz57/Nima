@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "681381569508",
+    "firebase_url": "https://ucrrosehack.firebaseio.com",
+    "project_id": "ucrrosehack",
+    "storage_bucket": "ucrrosehack.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:681381569508:android:09126367ea61eb86a95df1",
+        "android_client_info": {
+          "package_name": "com.example.ucrrosehack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "681381569508-bs29ivaa86bersr03ip1uohj47i13t0n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7h1jrZO3RRXerTYHLNfqEH730YGxTXRA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "681381569508-bs29ivaa86bersr03ip1uohj47i13t0n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
